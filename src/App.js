@@ -8,7 +8,6 @@ export default class App extends Component {
   state = {
     contacts: [],
     contactForUpdate: this.createEmptyContact(),
-    isDeleteVisible: false
   };
 
   toLocalStorage(contacts) {
@@ -44,50 +43,28 @@ export default class App extends Component {
             isDeleteVisible: false
           }
         });
-    // this.toLocalStorage(this.state.contacts);
-    // this.addContact();
     };
 
   saveContact = (contact) => {
-    if (contact.id) {
-      this.updateContact(contact);
-    }else {
+    if (!contact.id) {
       this.createContact(contact);
-    }
-    // this.toLocalStorage(c);
-    /*contact.id = Math.random();
-    if (!this.state.isDeleteVisible){
-      this.setState({
-        contacts: [...this.state.contacts, contact],
-        contactForUpdate: this.createEmptyContact(),
-        isDeleteVisible: false
-      });
     }else {
-      const newContacts = this.state.contacts.filter((item) => item.id !== this.state.contactForUpdate.id);
-      this.setState({
-        contacts: [...newContacts, contact],
-        contactForUpdate: this.createEmptyContact(),
-        isDeleteVisible: false
-      });
+      this.updateContact(contact);
     }
-    this.toLocalStorage(this.state.contacts);*/
   };
 
   addContact = () => {
       this.setState({
         contactForUpdate: this.createEmptyContact(),
-        isDeleteVisible: false
       });
-    // this.toLocalStorage(this.state.contacts);
   };
 
   selectContact = (contact) => {
     this.setState({
       contactForUpdate: contact,
-      isDeleteVisible: true
     })
   };
-  createContact = (contact) => {
+  createContact(contact) {
     contact.id = Date.now();
     this.setState((state) => {
       const contacts = [...state.contacts, contact];
@@ -95,23 +72,17 @@ export default class App extends Component {
       return {
         contacts,
         contactForUpdate: this.createEmptyContact(),
-        isDeleteVisible: false
       }
     })
   };
 
-  updateContact = (contact) => {
-    console.log(contact);
+  updateContact(contact) {
     this.setState((state) => {
       const contacts = state.contacts.map((item) => item.id === contact.id ? contact : item);
-      console.log(contacts);
-        /*contactForUpdate: contact,
-        isDeleteVisible: true*/
       this.toLocalStorage(contacts);
       return {
         contacts,
         contactForUpdate: contact,
-        isDeleteVisible: true
       }
     });
 
@@ -123,10 +94,11 @@ export default class App extends Component {
               contacts={this.state.contacts}
               onAddContact={this.addContact}
               onUpdateContact={this.selectContact} />
-          <ContactForm itemForUpdate={this.state.contactForUpdate}
-                       onSubmit={this.saveContact}
-                       onDeleteContact={this.deleteContact}
-                       deleteVisible={this.state.isDeleteVisible} />
+          <ContactForm
+              key={this.state.contactForUpdate.id}
+              itemForUpdate={this.state.contactForUpdate}
+              onSubmit={this.saveContact}
+              onDeleteContact={this.deleteContact} />
         </div>
     )
   }
