@@ -65,14 +65,7 @@ export default class ContactForm extends Component {
 
     onDelete = (ev) => {
         ev.preventDefault();
-        this.props.onDeleteContact(this.props.itemForUpdate.id);
-        this.setState({
-            lastName: '',
-            firstName: '',
-            phone: '',
-            cell: '',
-            email: ''
-        })
+        this.props.onDeleteContact(this.props.itemForUpdate);
     };
     onInputChange = (e) => {
         this.setState({

@@ -34,15 +34,19 @@ export default class App extends Component {
     })
   }
 
-  deleteContact = (id) => {
-    this.setState({
-        contacts: this.state.contacts.filter((item) => item.id !== id),
-        contactForUpdate: this.createEmptyContact(),
-        isDeleteVisible: false
-      });
+  deleteContact = (contact) => {
+    this.setState((state) => {
+          const contacts = state.contacts.filter((item) => item !== contact);
+          this.toLocalStorage(contacts);
+          return {
+            contacts,
+            contactForUpdate: this.createEmptyContact(),
+            isDeleteVisible: false
+          }
+        });
     // this.toLocalStorage(this.state.contacts);
-    this.addContact();
-  };
+    // this.addContact();
+    };
 
   saveContact = (contact) => {
     if (contact.id) {
@@ -74,7 +78,14 @@ export default class App extends Component {
         contactForUpdate: this.createEmptyContact(),
         isDeleteVisible: false
       });
-    this.toLocalStorage(this.state.contacts);
+    // this.toLocalStorage(this.state.contacts);
+  };
+
+  selectContact = (contact) => {
+    this.setState({
+      contactForUpdate: contact,
+      isDeleteVisible: true
+    })
   };
   createContact = (contact) => {
     contact.id = Date.now();
@@ -90,6 +101,7 @@ export default class App extends Component {
   };
 
   updateContact = (contact) => {
+    console.log(contact);
     this.setState((state) => {
       const contacts = state.contacts.map((item) => item.id === contact.id ? contact : item);
       console.log(contacts);
@@ -110,7 +122,7 @@ export default class App extends Component {
           <ContactList
               contacts={this.state.contacts}
               onAddContact={this.addContact}
-              onUpdateContact={this.updateContact} />
+              onUpdateContact={this.selectContact} />
           <ContactForm itemForUpdate={this.state.contactForUpdate}
                        onSubmit={this.saveContact}
                        onDeleteContact={this.deleteContact}
