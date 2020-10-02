@@ -5,27 +5,39 @@ import './App.css';
 
 export default class App extends Component {
 
-
-  toLocalStorage = (contacts) => {
-    localStorage.setItem('contacts', JSON.stringify(contacts))
-  };
   state = {
     contacts: [],
-    contactForUpdate: {},
+    contactForUpdate: this.createEmptyContact(),
     isDeleteVisible: false
   };
-  componentDidMount(){
-    if (localStorage.getItem('contacts') !== null) {
-      this.setState({
-        contacts: JSON.parse(localStorage.getItem('contacts')),
-      })
+
+  toLocalStorage(contacts) {
+    localStorage.setItem('contacts', JSON.stringify(contacts))
+  };
+
+  fromLocalStorage() {
+      const data = localStorage.getItem('contacts');
+      return data ? JSON.parse(data) : []
+  }
+  createEmptyContact() {
+    return {
+      lastName: '',
+      firstName: '',
+      phone: '',
+      cell: '',
+      email: ''
     }
+  };
+  componentDidMount(){
+    this.setState({
+      contacts: this.fromLocalStorage()
+    })
   }
 
   deleteContact = (id) => {
     this.setState({
         contacts: this.state.contacts.filter((item) => item.id !== id),
-        contactForUpdate: {},
+        contactForUpdate: this.createEmptyContact(),
         isDeleteVisible: false
       });
     // this.toLocalStorage(this.state.contacts);
@@ -33,38 +45,64 @@ export default class App extends Component {
   };
 
   saveContact = (contact) => {
-    contact.id = Math.random();
+    if (contact.id) {
+      this.updateContact(contact);
+    }else {
+      this.createContact(contact);
+    }
+    // this.toLocalStorage(c);
+    /*contact.id = Math.random();
     if (!this.state.isDeleteVisible){
       this.setState({
         contacts: [...this.state.contacts, contact],
-        contactForUpdate: {},
+        contactForUpdate: this.createEmptyContact(),
         isDeleteVisible: false
       });
     }else {
       const newContacts = this.state.contacts.filter((item) => item.id !== this.state.contactForUpdate.id);
       this.setState({
         contacts: [...newContacts, contact],
-        contactForUpdate: {},
+        contactForUpdate: this.createEmptyContact(),
         isDeleteVisible: false
       });
     }
-    this.toLocalStorage(this.state.contacts);
+    this.toLocalStorage(this.state.contacts);*/
   };
 
   addContact = () => {
       this.setState({
-        contactForUpdate: {},
+        contactForUpdate: this.createEmptyContact(),
         isDeleteVisible: false
       });
     this.toLocalStorage(this.state.contacts);
   };
+  createContact = (contact) => {
+    contact.id = Date.now();
+    this.setState((state) => {
+      const contacts = [...state.contacts, contact];
+      this.toLocalStorage(contacts);
+      return {
+        contacts,
+        contactForUpdate: this.createEmptyContact(),
+        isDeleteVisible: false
+      }
+    })
+  };
 
   updateContact = (contact) => {
-    this.setState({
+    this.setState((state) => {
+      const contacts = state.contacts.map((item) => item.id === contact.id ? contact : item);
+      console.log(contacts);
+        /*contactForUpdate: contact,
+        isDeleteVisible: true*/
+      this.toLocalStorage(contacts);
+      return {
+        contacts,
         contactForUpdate: contact,
         isDeleteVisible: true
+      }
     });
-    this.toLocalStorage(this.state.contacts);
+
   };
   render() {
     return (
