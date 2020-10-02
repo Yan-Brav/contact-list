@@ -1,0 +1,8 @@
+.App {
+  text-align: center;
+  margin: 5px;
+}
+.grid-2-items{
+  display: grid;
+  grid-template-columns: 400px 800px;
+}

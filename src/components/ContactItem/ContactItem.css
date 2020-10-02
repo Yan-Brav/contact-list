@@ -1,0 +1,8 @@
+.contact-item {
+    margin: 5px;
+    text-align: left;
+    border: black 1px solid;
+    width: 400px;
+    height: 20px;
+    padding: 1px;
+}
