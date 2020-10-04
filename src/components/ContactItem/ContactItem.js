@@ -9,7 +9,7 @@ export default class ContactItem extends Component {
                 className='contact-item'
                 onClick={() => this.props.onUpdate(this.props.item)}
             >
-                {this.props.item.firstName + ' ' + this.props.item.lastName}
+                {this.props.item.name + ' ' + this.props.item.surname}
             </div>
         );
     }

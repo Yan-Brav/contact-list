@@ -31,15 +31,15 @@ export default class ContactForm extends Component {
                   onSubmit={this.onFormSubmit}>
                 <div>
                     <input type='text'
-                           name='lastName'
-                           value={this.state.lastName}
+                           name='surname'
+                           value={this.state.surname}
                            onChange={this.onInputChange}
                            placeholder='Enter new last name' required/>
                 </div>
                 <div>
                     <input type='text'
-                           name='firstName'
-                           value={this.state.firstName}
+                           name='name'
+                           value={this.state.name}
                            onChange={this.onInputChange}
                            placeholder='Enter new first name' required/>
                 </div>
@@ -49,20 +49,6 @@ export default class ContactForm extends Component {
                            value={this.state.phone}
                            onChange={this.onInputChange}
                            placeholder='Enter new phone' />
-                </div>
-                <div>
-                    <input type='text'
-                           name='cell'
-                           value={this.state.cell}
-                           onChange={this.onInputChange}
-                           placeholder='Enter new cell' />
-                </div>
-                <div>
-                    <input type='text'
-                           name='email'
-                           value={this.state.email}
-                           onChange={this.onInputChange}
-                           placeholder='Enter new email' />
                 </div>
                 <div>
                     <button type='submit' className='save-btn'>Save</button>

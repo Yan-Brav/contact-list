@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import ContactList from "./components/ContactList/ContactList";
-import ContactForm from "./components/ContactForm/ContactForm";
+import ContactList from './components/ContactList/ContactList';
+import ContactForm from './components/ContactForm/ContactForm';
+import contactService from './contact-service';
 import './App.css';
 
 export default class App extends Component {
@@ -10,37 +11,46 @@ export default class App extends Component {
     contactForUpdate: this.createEmptyContact(),
   };
 
-  toLocalStorage(contacts) {
-    localStorage.setItem('contacts', JSON.stringify(contacts))
-  };
-
-  fromLocalStorage() {
-      const data = localStorage.getItem('contacts');
-      return data ? JSON.parse(data) : []
-  }
   createEmptyContact() {
     return {
-      lastName: '',
-      firstName: '',
-      phone: '',
-      cell: '',
-      email: ''
+      surname: '',
+      name: '',
+      phone: ''
     }
   };
-  componentDidMount(){
-    this.setState({
-      contacts: this.fromLocalStorage()
-    })
+  componentDidMount() {
+    this.getContacts();
+  }
+
+  getContacts() {
+    console.log('data is loaded');
+    contactService.get('/')
+        .then(({data}) => this.setState({
+          contacts: data
+        }))
+  }
+  sendContact(contact) {
+    contactService.post('/', contact).then(({data}) => {
+      this.setState({
+      contacts: [...this.state.contacts, data]
+    })})
+  }
+
+  editContact(contact) {
+    contactService.put('/' + contact.id, contact).then(() => console.log('contact is updated'))
+  }
+
+  deleteContactFromServer(contact) {
+    contactService.delete('/' + contact.id).then(() => console.log('contact is deleted'))
   }
 
   deleteContact = (contact) => {
+    this.deleteContactFromServer(contact);
     this.setState((state) => {
           const contacts = state.contacts.filter((item) => item !== contact);
-          this.toLocalStorage(contacts);
           return {
             contacts,
             contactForUpdate: this.createEmptyContact(),
-            isDeleteVisible: false
           }
         });
     };
@@ -65,21 +75,16 @@ export default class App extends Component {
     })
   };
   createContact(contact) {
-    contact.id = Date.now();
-    this.setState((state) => {
-      const contacts = [...state.contacts, contact];
-      this.toLocalStorage(contacts);
-      return {
-        contacts,
+    this.sendContact(contact);
+    this.setState({
         contactForUpdate: this.createEmptyContact(),
-      }
     })
   };
 
   updateContact(contact) {
+    this.editContact(contact);
     this.setState((state) => {
       const contacts = state.contacts.map((item) => item.id === contact.id ? contact : item);
-      this.toLocalStorage(contacts);
       return {
         contacts,
         contactForUpdate: contact,
