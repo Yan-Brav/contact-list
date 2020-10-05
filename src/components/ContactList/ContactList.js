@@ -12,10 +12,10 @@ export default class ContactList extends Component {
                         return <ContactItem
                             key={item.id}
                             item={item}
-                            onUpdate={this.props.onUpdateContact} />
+                            onUpdate={this.props.onSelectContact} />
                     })}
                 </div>
-                <button className='add-btn' onClick={this.props.onAddContact}>Add</button>
+                <button className='add-btn' onClick={this.props.onClickAddBtn}>Add</button>
             </div>
         );
     }

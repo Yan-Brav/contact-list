@@ -97,8 +97,8 @@ export default class App extends Component {
         <div className="App grid-2-items">
           <ContactList
               contacts={this.state.contacts}
-              onAddContact={this.addContact}
-              onUpdateContact={this.selectContact} />
+              onClickAddBtn={this.addContact}
+              onSelectContact={this.selectContact} />
           <ContactForm
               key={this.state.contactForUpdate.id}
               itemForUpdate={this.state.contactForUpdate}
@@ -108,4 +108,3 @@ export default class App extends Component {
     )
   }
 }
-
