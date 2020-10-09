@@ -1,18 +1,14 @@
-import React, {Component} from 'react';
+import React from 'react';
 import './ContactItem.css'
 
-export default class ContactItem extends Component {
-
-    render() {
-        return (
-            <div
-                className='contact-item'
-                onClick={() => this.props.onUpdate(this.props.item)}
-            >
-                {this.props.item.name + ' ' + this.props.item.surname}
-            </div>
-        );
-    }
+function ContactItem(props) {
+    return (
+        <div
+            className='contact-item'
+            onClick={() => props.onUpdate(props.item)}>
+            {props.item.name + ' ' + props.item.surname}
+        </div>
+    );
 }
 
-
+export default ContactItem;

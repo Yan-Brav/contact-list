@@ -1,63 +1,55 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import './ContactForm.css'
 
-export default class ContactForm extends Component {
-    constructor (props) {
-        super(props);
-        this.state = {
-            ...props.itemForUpdate
-        }
+function ContactForm(props) {
+
+    let [contact, setContact] = useState({...props.contactForUpdate});
+
+    function onFormSubmit(e) {
+        e.preventDefault();
+        props.onSubmit({...contact});
     }
 
-    onFormSubmit = (e) => {
-        e.preventDefault();
-        this.props.onSubmit({
-            ...this.state
-        });
-    };
 
-    onDelete = () => {
-        this.props.onDeleteContact(this.props.itemForUpdate);
-    };
-    onInputChange = (e) => {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
-    };
-
-    render() {
-        return (
-            <form className='contact-form'
-                  onSubmit={this.onFormSubmit}>
+    function onDelete() {
+        props.onDeleteContact(props.contactForUpdate);
+    }
+    function onInputChange(e) {
+        let newContact = {...contact, [e.target.name]: e.target.value};
+        setContact(newContact);
+    }
+    return (
+        <form className='contact-form'
+                  onSubmit={onFormSubmit}>
                 <div>
                     <input type='text'
                            name='surname'
-                           value={this.state.surname}
-                           onChange={this.onInputChange}
+                           value={contact.surname}
+                           onChange={onInputChange}
                            placeholder='Enter new last name' required/>
                 </div>
                 <div>
                     <input type='text'
                            name='name'
-                           value={this.state.name}
-                           onChange={this.onInputChange}
+                           value={contact.name}
+                           onChange={onInputChange}
                            placeholder='Enter new first name' required/>
                 </div>
                 <div>
                     <input type='text'
                            name='phone'
-                           value={this.state.phone}
-                           onChange={this.onInputChange}
+                           value={contact.phone}
+                           onChange={onInputChange}
                            placeholder='Enter new phone' />
                 </div>
                 <div>
                     <button type='submit' className='save-btn'>Save</button>
-                    {this.state.id ? (<button type='button' className='delete-btn'
-                                             onClick={this.onDelete}>Delete</button>)
+                    {contact.id ? (<button type='button' className='delete-btn'
+                                             onClick={onDelete}>Delete</button>)
                                     : ('')}
                 </div>
             </form>
-        )
-    }
+    );
 }
 
+export default ContactForm;
