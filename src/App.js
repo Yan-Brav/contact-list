@@ -5,8 +5,8 @@ import './App.css';
 import contactService from './contact-service';
 
 function App() {
-    let [contacts, setContacts] = useState([]);
-    let [selectedContact, setSelectedContact] = useState(createEmptyContact());
+    const [contacts, setContacts] = useState([]);
+    const [selectedContact, setSelectedContact] = useState(createEmptyContact());
 
     function sendContact(contact) {
         console.log('contact is created');
