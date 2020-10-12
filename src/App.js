@@ -8,6 +8,12 @@ function App() {
     const [contacts, setContacts] = useState([]);
     const [selectedContact, setSelectedContact] = useState(createEmptyContact());
 
+    useEffect(() => {
+        console.log('data is loaded');
+        contactService.get('/')
+            .then(({data}) => {setContacts(data)});
+    }, []);
+
     function sendContact(contact) {
         console.log('contact is created');
         contactService.post('/', contact).then(({data}) => {
@@ -34,12 +40,6 @@ function App() {
             phone: ''
         }
     }
-
-    useEffect(() => {
-        console.log('data is loaded');
-        contactService.get('/')
-            .then(({data}) => {setContacts(data)});
-    }, []);
 
     function deleteContact(contact) {
         deleteContactFromServer(contact);
