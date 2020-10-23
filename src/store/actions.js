@@ -25,3 +25,36 @@ export function selectContact(payload) {
         payload
     }
 }
+
+export const DELETE_CONTACT = 'DELETE_CONTACT';
+export function deleteContact(payload) {
+    return {
+        type: DELETE_CONTACT,
+        payload
+    }
+}
+
+export const SAVE_CONTACTS = 'SAVE_CONTACT';
+export function saveContacts(payload) {
+    return {
+        type: SAVE_CONTACTS,
+        payload
+    }
+}
+
+export const UPDATE_CONTACTS = 'UPDATE_CONTACTS';
+export function updateContacts(payload) {
+    return {
+        type: UPDATE_CONTACTS,
+        payload
+    }
+}
+
+export const INPUT_CHANGE_CONTACT = 'INPUT_CHANGE_CONTACT';
+export function inputChangeContact(payload) {
+    return {
+        type: INPUT_CHANGE_CONTACT,
+        payload
+    }
+
+}

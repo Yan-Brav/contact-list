@@ -13,7 +13,7 @@ function ContactItem({item, selectContact}) {
     );
 }
 
-function mapStateToProps(state, props) {
+function mapStateToProps(state) {
     return state
 }
 

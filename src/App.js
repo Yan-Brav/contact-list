@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import ContactList from './components/ContactList/ContactList';
 import ContactForm from './components/ContactForm/ContactForm';
 import './App.css';
-import contactService from './contact-service';
+// import contactService from './contact-service';
 
 function App() {
-    const [contacts, setContacts] = useState([]);
+    /*const [contacts, setContacts] = useState([]);
     const [selectedContact, setSelectedContact] = useState(createEmptyContact());
 
     useEffect(() => {
@@ -75,18 +75,11 @@ function App() {
         setContacts(contacts.map((item) => item.id === contact.id ? contact : item));
         setSelectedContact(contact);
         }
-
+*/
     return (
         <div className="App grid-2-items">
-            <ContactList
-                // contacts={contacts}
-                onClickAddBtn={clickAddBtn}
-                onSelectContact={selectContact} />
-            <ContactForm
-                key={selectedContact.id}
-                contactForUpdate={selectedContact}
-                onSubmit={saveContact}
-                onDeleteContact={deleteContact} />
+            <ContactList />
+            <ContactForm />
         </div>
     );
 }
