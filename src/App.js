@@ -79,7 +79,7 @@ function App() {
     return (
         <div className="App grid-2-items">
             <ContactList
-                contacts={contacts}
+                // contacts={contacts}
                 onClickAddBtn={clickAddBtn}
                 onSelectContact={selectContact} />
             <ContactForm

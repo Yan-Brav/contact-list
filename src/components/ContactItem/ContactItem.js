@@ -1,14 +1,24 @@
 import React from 'react';
 import './ContactItem.css'
+import {connect} from "react-redux";
+import {selectContact} from "../../store/actions";
 
-function ContactItem(props) {
+function ContactItem({item, selectContact}) {
     return (
         <div
             className='contact-item'
-            onClick={() => props.onUpdate(props.item)}>
-            {props.item.name + ' ' + props.item.surname}
+            onClick={() => selectContact(item)}>
+            {item.name + ' ' + item.surname}
         </div>
     );
 }
 
-export default ContactItem;
+function mapStateToProps(state, props) {
+    return state
+}
+
+const mapDispatchToProps = {
+    selectContact
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactItem);
