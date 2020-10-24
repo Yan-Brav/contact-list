@@ -5,7 +5,8 @@ import {deleteContact, inputChangeContact, saveContacts, updateContacts} from ".
 import contactService from "../../contact-service";
 
 function ContactForm({contacts, selectedContact,
-                         deleteContact, saveContacts, updateContacts, inputChangeContact}) {
+                     deleteContact, saveContacts,
+                     updateContacts, inputChangeContact}) {
 
     function sendContact(contact) {
         console.log('contact is created');
@@ -36,11 +37,11 @@ function ContactForm({contacts, selectedContact,
         }
     }
 
-    function onDelete(selectedContact) {
-        console.log(selectedContact);
-        let newContacts = contacts.filter((item) => item !== selectedContact);
+    function onDelete(contact) {
+        console.log(contact);
+        let newContacts = contacts.filter((item) => item !== contact);
         deleteContact(newContacts);
-        deleteFromServer(selectedContact);
+        deleteFromServer(contact);
     }
 
     function onInputChange(e) {
@@ -55,14 +56,14 @@ function ContactForm({contacts, selectedContact,
                            name='surname'
                            value={selectedContact.surname}
                            onChange={onInputChange}
-                           placeholder='Enter new last name' required/>
+                           placeholder='Enter new surname' required/>
                 </div>
                 <div>
                     <input type='text'
                            name='name'
                            value={selectedContact.name}
                            onChange={onInputChange}
-                           placeholder='Enter new first name' required/>
+                           placeholder='Enter new name' required/>
                 </div>
                 <div>
                     <input type='text'
@@ -74,7 +75,7 @@ function ContactForm({contacts, selectedContact,
                 <div>
                     <button type='submit' className='save-btn'>Save</button>
                     {selectedContact.id ? (<button type='button' className='delete-btn'
-                                             onClick={onDelete}>Delete</button>)
+                                             onClick={() => onDelete(selectedContact)}>Delete</button>)
                                     : ('')}
                 </div>
             </form>

@@ -10,9 +10,8 @@ function ContactList({contacts, clickAddBtn, setContacts}) {
     useEffect(() => {
         contactService.get('/')
             .then(({data}) => {
-                console.log(data);
                 setContacts(data)});
-    }, []);
+    }, [setContacts]);
 
     return (
         <div className='contact-list'>

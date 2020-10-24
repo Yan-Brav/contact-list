@@ -13,12 +13,8 @@ function ContactItem({item, selectContact}) {
     );
 }
 
-function mapStateToProps(state) {
-    return state
-}
-
 const mapDispatchToProps = {
     selectContact
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactItem);
+export default connect( null, mapDispatchToProps)(ContactItem);

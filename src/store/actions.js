@@ -1,12 +1,7 @@
 export const CLICK_ADD_BTN = 'CLICK_ADD_BTN';
 export function clickAddBtn() {
     return {
-        type: CLICK_ADD_BTN,
-        payload: {
-            surname: '',
-            name: '',
-            phone: ''
-        }
+        type: CLICK_ADD_BTN
     }
 }
 
@@ -34,18 +29,18 @@ export function deleteContact(payload) {
     }
 }
 
-export const SAVE_CONTACTS = 'SAVE_CONTACT';
+export const SAVE_CONTACT = 'SAVE_CONTACT';
 export function saveContacts(payload) {
     return {
-        type: SAVE_CONTACTS,
+        type: SAVE_CONTACT,
         payload
     }
 }
 
-export const UPDATE_CONTACTS = 'UPDATE_CONTACTS';
+export const UPDATE_CONTACT = 'UPDATE_CONTACT';
 export function updateContacts(payload) {
     return {
-        type: UPDATE_CONTACTS,
+        type: UPDATE_CONTACT,
         payload
     }
 }
@@ -56,5 +51,4 @@ export function inputChangeContact(payload) {
         type: INPUT_CHANGE_CONTACT,
         payload
     }
-
 }
