@@ -27,7 +27,7 @@ function ContactList({contacts, clickAddBtn, setContacts}) {
     );
 }
 
-function mapStateToProps(state, props) {
+function mapStateToProps(state) {
     return {
         contacts: state.contacts
     }

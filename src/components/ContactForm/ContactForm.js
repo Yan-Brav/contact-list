@@ -10,22 +10,20 @@ function ContactForm({contacts, selectedContact,
 
     function sendContact(contact) {
         console.log('contact is created');
-        contactService.post('/', contact).then(({data}) => {
-            saveContacts([...contacts, data])
-        })
+        contactService.post('/', contact).then(({data}) => saveContacts(data))
     }
     function editContact(contact) {
         contactService.put('/' + contact.id, contact)
             .then(() => console.log('contact is updated'))
             .catch((er) => console.log(er));
-        const newContacts = contacts.map((item) => item.id !== contact.id ? item : contact);
-        updateContacts(newContacts);
+        updateContacts(contact);
     }
 
     function deleteFromServer(contact) {
         contactService.delete('/' + contact.id)
             .then(() => console.log('contact is deleted'))
-            .catch((er) => console.log(er))
+            .catch((er) => console.log(er));
+        deleteContact(contact);
     }
 
     function onFormSubmit(e) {
@@ -37,16 +35,8 @@ function ContactForm({contacts, selectedContact,
         }
     }
 
-    function onDelete(contact) {
-        console.log(contact);
-        let newContacts = contacts.filter((item) => item !== contact);
-        deleteContact(newContacts);
-        deleteFromServer(contact);
-    }
-
     function onInputChange(e) {
-        let newContact =  {...selectedContact, [e.target.name]: e.target.value};
-        inputChangeContact(newContact);
+        inputChangeContact({...selectedContact, [e.target.name]: e.target.value});
     }
     return (
         <form className='contact-form'
@@ -75,14 +65,14 @@ function ContactForm({contacts, selectedContact,
                 <div>
                     <button type='submit' className='save-btn'>Save</button>
                     {selectedContact.id ? (<button type='button' className='delete-btn'
-                                             onClick={() => onDelete(selectedContact)}>Delete</button>)
+                                             onClick={() => deleteFromServer(selectedContact)}>Delete</button>)
                                     : ('')}
                 </div>
             </form>
     );
 }
 
-function mapStateToProps(state, props) {
+function mapStateToProps(state) {
     return {
         contacts: state.contacts,
         selectedContact: state.selectedContact
