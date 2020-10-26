@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {deleteContact, inputChangeContact, saveContacts, updateContacts} from "../../store/actions";
 import contactService from "../../contact-service";
 
-function ContactForm({contacts, selectedContact,
+function ContactForm({selectedContact,
                      deleteContact, saveContacts,
                      updateContacts, inputChangeContact}) {
 
@@ -74,7 +74,6 @@ function ContactForm({contacts, selectedContact,
 
 function mapStateToProps(state) {
     return {
-        contacts: state.contacts,
         selectedContact: state.selectedContact
     }
 }
