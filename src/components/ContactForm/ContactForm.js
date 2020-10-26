@@ -14,9 +14,12 @@ function ContactForm({selectedContact,
     }
     function editContact(contact) {
         contactService.put('/' + contact.id, contact)
-            .then(() => console.log('contact is updated'))
+            .then(() => {
+                console.log('contact is updated');
+                updateContacts(contact)
+            })
             .catch((er) => console.log(er));
-        updateContacts(contact);
+
     }
 
     function deleteFromServer(contact) {
