@@ -1,54 +1,42 @@
-export const CLICK_ADD_BTN = 'CLICK_ADD_BTN';
-export function clickAddBtn() {
-    return {
-        type: CLICK_ADD_BTN
-    }
-}
+import api from '../contact-service'
 
 export const SET_CONTACTS = 'SET_CONTACTS';
-export function setContacts(payload) {
-    return {
+export const setContacts = () => async (dispatch) => {
+    const {data} = await api.get('/');
+    dispatch({
         type: SET_CONTACTS,
-        payload
-    }
-}
-
-export const SELECT_CONTACT = 'SELECT_CONTACT';
-export function selectContact(payload) {
-    return {
-        type: SELECT_CONTACT,
-        payload
-    }
-}
+        payload: data
+    })
+};
 
 export const DELETE_CONTACT = 'DELETE_CONTACT';
-export function deleteContact(payload) {
-    return {
+export const deleteContact = (id) => async (dispatch) =>{
+    await api.delete('/' + id);
+    dispatch({
         type: DELETE_CONTACT,
-        payload
-    }
-}
+        payload: id
+    })
+};
 
 export const SAVE_CONTACT = 'SAVE_CONTACT';
-export function saveContacts(payload) {
-    return {
+const addContact = (contact) => async (dispatch) => {
+    const {data} = await api.post('/', contact);
+    dispatch({
         type: SAVE_CONTACT,
-        payload
-    }
-}
+        payload: data
+    })
+};
 
 export const UPDATE_CONTACT = 'UPDATE_CONTACT';
-export function updateContacts(payload) {
-    return {
+const updateContact = (contact) => async (dispatch) => {
+    const {data} = await api.put('/' + contact.id, contact);
+    dispatch({
         type: UPDATE_CONTACT,
-        payload
-    }
-}
+        payload: data
+    })
+};
 
-export const INPUT_CHANGE_CONTACT = 'INPUT_CHANGE_CONTACT';
-export function inputChangeContact(payload) {
-    return {
-        type: INPUT_CHANGE_CONTACT,
-        payload
-    }
-}
+export const saveContact = (contact) => async (dispatch) => {
+    contact.id ? await updateContact(contact)(dispatch)
+            : await addContact(contact)(dispatch)
+};

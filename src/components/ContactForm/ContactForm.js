@@ -1,91 +1,96 @@
 import React from 'react';
 import './ContactForm.css'
-import {connect} from "react-redux";
-import {deleteContact, inputChangeContact, saveContacts, updateContacts} from "../../store/actions";
-import contactService from "../../contact-service";
+import {connect} from 'react-redux';
+import {deleteContact, saveContact} from '../../store/actions';
+import {Formik, Field, Form} from 'formik';
+import {withRouter, useHistory} from 'react-router-dom';
 
-function ContactForm({selectedContact,
-                     deleteContact, saveContacts,
-                     updateContacts, inputChangeContact}) {
+const EMPTY_CONTACT = {
+    surname: '',
+    name: '',
+    phone: ''
+};
 
-    function sendContact(contact) {
-        console.log('contact is created');
-        contactService.post('/', contact).then(({data}) => saveContacts(data))
-    }
-    function editContact(contact) {
-        contactService.put('/' + contact.id, contact)
-            .then(() => {
-                console.log('contact is updated');
-                updateContacts(contact)
-            })
-            .catch((er) => console.log(er));
+function ContactForm({currentContact,
+                     deleteContact,
+                     saveContact}) {
 
-    }
+    const history = useHistory();
 
-    function deleteFromServer(contact) {
-        contactService.delete('/' + contact.id)
-            .then(() => console.log('contact is deleted'))
-            .catch((er) => console.log(er));
-        deleteContact(contact);
-    }
+    const onFormSubmit = (values) => {
+        saveContact(values);
+        history.push('/');
+    };
 
-    function onFormSubmit(e) {
-        e.preventDefault();
-        if (!selectedContact.id) {
-            sendContact(selectedContact);
-        }else {
-            editContact(selectedContact)
-        }
-    }
+    const goHome = () => {
+        history.push('/');
+    };
 
-    function onInputChange(e) {
-        inputChangeContact({...selectedContact, [e.target.name]: e.target.value});
-    }
-    return (
-        <form className='contact-form'
-                  onSubmit={onFormSubmit}>
-                <div>
-                    <input type='text'
-                           name='surname'
-                           value={selectedContact.surname}
-                           onChange={onInputChange}
-                           placeholder='Enter new surname' required/>
+
+    const renderForm = (props) => {
+        return (
+            <Form>
+                <div className='form-field'>
+                    <label htmlFor='surname'>Surname:</label>
+                    <Field name='surname'/>
                 </div>
-                <div>
-                    <input type='text'
-                           name='name'
-                           value={selectedContact.name}
-                           onChange={onInputChange}
-                           placeholder='Enter new name' required/>
+                {props.errors.surname && props.touched.surname
+                    ? <div className='error'>{props.errors.surname}</div>
+                    : null}
+                <div className='form-field'>
+                    <label htmlFor='name'>Name:</label>
+                    <Field name='name'/>
                 </div>
-                <div>
-                    <input type='text'
-                           name='phone'
-                           value={selectedContact.phone}
-                           onChange={onInputChange}
-                           placeholder='Enter new phone' />
+                {props.errors.name && props.touched.name
+                    ? <div className='error'>{props.errors.name}</div>
+                    : null}
+                <div className='form-field'>
+                    <label htmlFor='phone'>Phone:</label>
+                    <Field name='phone'/>
                 </div>
                 <div>
                     <button type='submit' className='save-btn'>Save</button>
-                    {selectedContact.id ? (<button type='button' className='delete-btn'
-                                             onClick={() => deleteFromServer(selectedContact)}>Delete</button>)
-                                    : ('')}
+                    <button type='button' className='return-btn' onClick={goHome}>Return</button>
+                    {currentContact.id ? (<button type='button' className='delete-btn'
+                                                   onClick={() => deleteContact(props.values.id)}>Delete</button>)
+                        : ('')}
                 </div>
-            </form>
+            </Form>
+        )
+    };
+
+    const validateForm = (values) => {
+        const errors = {};
+        if (!values.surname)  {
+            errors.surname = 'Surname is required';
+        }
+        if (!values.name)  {
+            errors.name = 'Name is required';
+        }
+        return errors;
+    };
+
+    return (
+        <Formik
+            initialValues={currentContact}
+            onSubmit={onFormSubmit}
+            validate={validateForm}
+            enableReinitialize={true}>
+            {renderForm}
+        </Formik>
     );
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = ({contacts}, {match: {params: {id}}}) => {
+    const currentContact = contacts.find(contact => contact.id === id);
     return {
-        selectedContact: state.selectedContact
+        currentContact: currentContact ? currentContact : EMPTY_CONTACT
     }
-}
+};
 
 const mapDispatchToProps = {
     deleteContact,
-    saveContacts,
-    updateContacts,
-    inputChangeContact
+    saveContact
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ContactForm));

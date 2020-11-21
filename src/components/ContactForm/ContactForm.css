@@ -5,6 +5,13 @@
 .delete-btn.invisible {
     display: none;
 }
+
+.form-field {
+    display: flex;
+    width: 600px;
+    margin: 5px;
+}
+
 button {
     margin: 5px;
 }
@@ -12,7 +19,12 @@ input {
     margin-left: 5px;
     margin-bottom: 5px;
     margin-right: 5px;
-    width: 600px;
+    width: 75%;
+    /*width: 600px;*/
     height: 20px;
     border: black 1px solid;
+}
+
+label {
+    width: 25%;
 }

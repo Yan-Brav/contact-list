@@ -1,20 +1,27 @@
 import React from 'react';
 import './ContactItem.css'
-import {connect} from "react-redux";
-import {selectContact} from "../../store/actions";
+// import {connect} from 'react-redux';
+// import {selectContact} from '../../store/actions';
+import {NavLink/*, useHistory*/} from 'react-router-dom';
 
-function ContactItem({item, selectContact}) {
+function ContactItem({item}) {
+
+   /* const history = useHistory();
+    const selectContact = (id) => {
+        history.push('form/' + id);
+    };*/
+
     return (
-        <div
-            className='contact-item'
-            onClick={() => selectContact(item)}>
-            {item.name + ' ' + item.surname}
+        <div className='contact-item'>
+            <NavLink to={`/form/${item.id}`}>
+                {item.name + ' ' + item.surname}
+            </NavLink>
         </div>
     );
 }
 
-const mapDispatchToProps = {
-    selectContact
-};
+/*const mapDispatchToProps = {
+    // selectContact
+};*/
 
-export default connect( null, mapDispatchToProps)(ContactItem);
+export default ContactItem;

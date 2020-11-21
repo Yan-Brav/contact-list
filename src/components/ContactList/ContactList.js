@@ -1,17 +1,10 @@
-import React, {useEffect} from "react";
-import ContactItem from "../ContactItem/ContactItem";
-import "./ContactList.css"
-import {connect} from "react-redux";
-import {clickAddBtn, setContacts} from "../../store/actions";
-import contactService from "../../contact-service"
+import React from 'react';
+import ContactItem from '../ContactItem/ContactItem';
+import './ContactList.css'
+import {connect} from 'react-redux';
+import {NavLink} from 'react-router-dom';
 
-function ContactList({contacts, clickAddBtn, setContacts}) {
-
-    useEffect(() => {
-        contactService.get('/')
-            .then(({data}) => {
-                setContacts(data)});
-    }, [setContacts]);
+function ContactList({contacts}) {
 
     return (
         <div className='contact-list'>
@@ -22,21 +15,11 @@ function ContactList({contacts, clickAddBtn, setContacts}) {
                         item={item} />
                 })}
             </div>
-            <button className='add-btn' onClick={clickAddBtn}>Add</button>
+            <NavLink to='/form/:id' className='add-btn'>Add new</NavLink>
         </div>
     );
 }
 
-function mapStateToProps(state) {
-    return {
-        contacts: state.contacts
-    }
-}
+const mapStateToProps = ({contacts}) => ({contacts});
 
-const mapDispatchToProps = {
-    clickAddBtn,
-    setContacts
-};
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactList);
+export default connect(mapStateToProps)(ContactList);
