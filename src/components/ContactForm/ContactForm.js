@@ -3,6 +3,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Formik, Field, Form} from 'formik';
 import {withRouter, useHistory} from 'react-router-dom';
+import * as Yup from 'yup';
 //@material-ui
 import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
@@ -39,6 +40,11 @@ function ContactForm({currentContact,
         history.push('/');
     };
 
+    const onDelete = (id) => {
+        deleteContact(id);
+        history.push('/');
+    };
+
     const goHome = () => {
         history.push('/');
     };
@@ -72,7 +78,7 @@ function ContactForm({currentContact,
                     {currentContact.id ? (<Button
                                             type='button'
                                             className={classes.root}
-                                            onClick={() => deleteContact(values.id)}
+                                            onClick={() => onDelete(values.id)}
                                             variant='contained'
                                             color='secondary'
                                             size='small'
@@ -82,23 +88,22 @@ function ContactForm({currentContact,
             </Form>
         )
     };
-    const validateForm = (values) => {
-        const errors = {};
-        if (!values.surname)  {
-            errors.surname = 'Surname is required';
-        }
-        if (!values.name)  {
-            errors.name = 'Name is required';
-        }
-        return errors;
-    };
 
     return (
         <Formik
             initialValues={currentContact}
             onSubmit={onFormSubmit}
-            validate={validateForm}
-            enableReinitialize={true}>
+            enableReinitialize={true}
+            validationSchema={Yup.object({
+                surname: Yup.string()
+                    .required('Surname is required'),
+                name: Yup.string()
+                    .max(20, 'Must be shorted than 20 characters')
+                    .required('Name is required'),
+                phone: Yup.string()
+                    .min(5, 'Must be longer than 5 characters')
+                    .max(17, 'Must be shorted than 17 characters')
+            })}>
             {renderForm}
         </Formik>
     );
