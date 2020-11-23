@@ -11,8 +11,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import {makeStyles} from '@material-ui/core';
 //App files
 import {deleteContact, saveContact} from '../../store/actions';
-import './ContactForm.css';
-import AppTextField from './appTextField';
+// import './ContactForm.css';
+import AppTextField from './AppTextField';
 
 const EMPTY_CONTACT = {
     surname: '',
@@ -22,9 +22,6 @@ const EMPTY_CONTACT = {
 
 const useStyles = makeStyles({
     btn: {
-        margin: '5px'
-    },
-    text_field: {
         margin: '5px'
     }
 });

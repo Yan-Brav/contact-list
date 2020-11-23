@@ -1,27 +1,19 @@
 import React from 'react';
+import {NavLink} from 'react-router-dom';
 import './ContactItem.css'
-// import {connect} from 'react-redux';
-// import {selectContact} from '../../store/actions';
-import {NavLink/*, useHistory*/} from 'react-router-dom';
+import Typography from '@material-ui/core/Typography';
 
 function ContactItem({item}) {
 
-   /* const history = useHistory();
-    const selectContact = (id) => {
-        history.push('form/' + id);
-    };*/
-
     return (
         <div className='contact-item'>
-            <NavLink to={`/form/${item.id}`}>
-                {item.name + ' ' + item.surname}
+            <NavLink to={`/form/${item.id}`} className='contact'>
+                <Typography variant='body1'>
+                    {item.name + ' ' + item.surname}
+                </Typography>
             </NavLink>
         </div>
     );
 }
-
-/*const mapDispatchToProps = {
-    // selectContact
-};*/
 
 export default ContactItem;

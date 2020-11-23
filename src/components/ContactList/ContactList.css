@@ -3,7 +3,9 @@
 }
 .add-btn {
     text-align: left;
+    text-decoration: none;
     margin: 5px;
+    color: white;
 }
 .contact-list-item {
     margin-right: 5px;

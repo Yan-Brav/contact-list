@@ -1,8 +1,10 @@
 import React from 'react';
-import ContactItem from '../ContactItem/ContactItem';
-import './ContactList.css'
 import {connect} from 'react-redux';
 import {NavLink} from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import ContactItem from '../ContactItem/ContactItem';
+import './ContactList.css'
+import AddBoxIcon from '@material-ui/icons/AddBox';
 
 function ContactList({contacts}) {
 
@@ -15,7 +17,15 @@ function ContactList({contacts}) {
                         item={item} />
                 })}
             </div>
-            <NavLink to='/form/:id' className='add-btn'>Add new</NavLink>
+            <Button type='button'
+                    variant='contained'
+                    color='primary'
+                    size='small'
+                    startIcon={<AddBoxIcon/>}
+                    >
+                <NavLink to='/form/:id' className='add-btn'>Add new</NavLink>
+            </Button>
+
         </div>
     );
 }
