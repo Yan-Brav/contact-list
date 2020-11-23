@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
-import './ContactItem.css'
 import Typography from '@material-ui/core/Typography';
+import './ContactItem.css'
 
 function ContactItem({item}) {
 

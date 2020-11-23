@@ -11,7 +11,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import {makeStyles} from '@material-ui/core';
 //App files
 import {deleteContact, saveContact} from '../../store/actions';
-// import './ContactForm.css';
 import AppTextField from './AppTextField';
 
 const EMPTY_CONTACT = {
@@ -21,8 +20,9 @@ const EMPTY_CONTACT = {
 };
 
 const useStyles = makeStyles({
-    btn: {
-        margin: '5px'
+    root: {
+        margin: '5px',
+        width: '15%'
     }
 });
 
@@ -55,43 +55,33 @@ function ContactForm({currentContact,
                 <Field name='phone'>
                     {AppTextField}
                 </Field>
-                <div className='btn-group'>
+                <div >
                     <Button type='submit'
-                            className='save-btn'
                             variant='contained'
                             color='primary'
                             size='small'
                             startIcon={<SaveIcon />}
-                            classes={{
-                                root: classes.btn
-                            }}>Save</Button>
+                            className={classes.root}>Save</Button>
                     <Button type='button'
-                            className='return-btn'
+                            className={classes.root}
                             onClick={goHome}
                             variant='contained'
                             color='primary'
                             size='small'
-                            startIcon={<UndoIcon/>}
-                            classes={{
-                                root: classes.btn
-                            }}>Return</Button>
+                            startIcon={<UndoIcon/>}>Return</Button>
                     {currentContact.id ? (<Button
                                             type='button'
-                                            className='delete-btn'
+                                            className={classes.root}
                                             onClick={() => deleteContact(values.id)}
                                             variant='contained'
                                             color='secondary'
                                             size='small'
-                                            startIcon={<DeleteIcon />}
-                                            classes={{
-                                                root: classes.btn
-                                            }}>Delete</Button>)
+                                            startIcon={<DeleteIcon />}>Delete</Button>)
                         : ('')}
                 </div>
             </Form>
         )
     };
-
     const validateForm = (values) => {
         const errors = {};
         if (!values.surname)  {
