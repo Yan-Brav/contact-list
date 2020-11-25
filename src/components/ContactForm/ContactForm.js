@@ -35,6 +35,17 @@ function ContactForm({currentContact,
 
     const classes = useStyles();
 
+    const validation = Yup.object({
+        surname: Yup.string()
+            .required('Surname is required'),
+        name: Yup.string()
+            .max(20, 'Must be shorted than 20 characters')
+            .required('Name is required'),
+        phone: Yup.string()
+            .min(5, 'Must be longer than 5 characters')
+            .max(17, 'Must be shorted than 17 characters')
+    });
+
     const onFormSubmit = (values) => {
         saveContact(values);
         history.push('/');
@@ -49,7 +60,7 @@ function ContactForm({currentContact,
         history.push('/');
     };
 
-    const renderForm = ({values}) => {
+    const renderForm = ({values, dirty, isValid}) => {
         return (
             <Form>
                 <Field name='surname'>
@@ -67,6 +78,7 @@ function ContactForm({currentContact,
                             color='primary'
                             size='small'
                             startIcon={<SaveIcon />}
+                            disabled={!dirty || !isValid}
                             className={classes.root}>Save</Button>
                     <Button type='button'
                             className={classes.root}
@@ -94,16 +106,7 @@ function ContactForm({currentContact,
             initialValues={currentContact}
             onSubmit={onFormSubmit}
             enableReinitialize={true}
-            validationSchema={Yup.object({
-                surname: Yup.string()
-                    .required('Surname is required'),
-                name: Yup.string()
-                    .max(20, 'Must be shorted than 20 characters')
-                    .required('Name is required'),
-                phone: Yup.string()
-                    .min(5, 'Must be longer than 5 characters')
-                    .max(17, 'Must be shorted than 17 characters')
-            })}>
+            validationSchema={validation}>
             {renderForm}
         </Formik>
     );
